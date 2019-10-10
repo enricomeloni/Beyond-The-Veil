@@ -4,6 +4,7 @@
 <?php /*HELP: E' possibile modificare la scheda agendo su scheda.css nel tema scelto, oppure sostituendo il codice che segue la voce "Scheda del personaggio"*/ ?>
 
 <?php
+$popupOn = $_GET["popup"] == '1';
 /********* CARICAMENTO PERSONAGGIO ***********/
 //Se non e' stato specificato il nome del pg
 if (isset($_REQUEST['pg'])===FALSE){
@@ -142,27 +143,27 @@ if ($PARAMETERS['mode']['alert_password_change']=='ON')
 	            </a>
 	   <?php } ?>
 
-       <a href="main.php?page=scheda_trans&pg=<?php echo gdrcd_filter('url',$_REQUEST['pg']); ?>">
+       <a href="<?=createLink('page=scheda_trans&pg='.gdrcd_filter('url',$_REQUEST['pg']),$popupOn); ?>">
 	      <?php echo gdrcd_filter('out',$MESSAGE['interface']['sheet']['menu']['transictions']);?>
 	   </a>
 
-	   <a href="main.php?page=scheda_px&pg=<?php echo gdrcd_filter('url',$_REQUEST['pg']); ?>">
+	   <a href="<?=createLink('page=scheda_px&pg='.gdrcd_filter('url',$_REQUEST['pg']),$popupOn); ?>">
 	      <?php echo gdrcd_filter('out',$MESSAGE['interface']['sheet']['menu']['experience']);?>
 	   </a>
 
-	   <a href="main.php?page=scheda_oggetti&pg=<?php echo gdrcd_filter('url',$_REQUEST['pg']); ?>">
+	   <a href="<?=createLink('page=scheda_oggetti&pg='.gdrcd_filter('url',$_REQUEST['pg']),$popupOn); ?>">
 	      <?php echo gdrcd_filter('out',$MESSAGE['interface']['sheet']['menu']['inventory']);?>
 	   </a>
-	   <a href="main.php?page=scheda_equip&pg=<?php echo gdrcd_filter('url',$_REQUEST['pg']); ?>">
+	   <a href="<?=createLink('page=scheda_equip&pg='.gdrcd_filter('url',$_REQUEST['pg']),$popupOn); ?>">
 	      <?php echo gdrcd_filter('out',$MESSAGE['interface']['sheet']['menu']['equipment']);?>
 	   </a>
 
 	   <?php /*Visualizza il link modifica se l'utente visualizza la propria scheda o se è almeno un capogilda*/
 		     if($_SESSION['permessi']>=MODERATOR){ ?>
-               <a href="main.php?page=scheda_log&pg=<?php echo gdrcd_filter('url',$_REQUEST['pg']); ?>">
+               <a href="<?=createLink('page=scheda_log&pg='.gdrcd_filter('url',$_REQUEST['pg']),$popupOn); ?>">
 	             <?php echo gdrcd_filter('out',$MESSAGE['interface']['sheet']['menu']['log']);?>
 	           </a>
-			   <a href="main.php?page=scheda_gst&pg=<?php echo gdrcd_filter('url',$_REQUEST['pg']); ?>">
+			   <a href="<?=createLink('page=scheda_gst&pg='.gdrcd_filter('url',$_REQUEST['pg']),$popupOn); ?>">
 	             <?php echo gdrcd_filter('out',$MESSAGE['interface']['sheet']['menu']['gst']);?>
 	           </a>
    	   <?php } ?>

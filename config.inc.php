@@ -1,4 +1,16 @@
 <?php
+        require __DIR__ . '/vendor/autoload.php';
+
+        $dotenv = Dotenv\Dotenv::create(__DIR__);
+        $dotenv->load();
+
+        
+        function createLink($queryString, $popup) 
+        {
+            $baseUrl = $popup ? 'popup.php' : 'main.php'; 
+            return $baseUrl . "?" . $queryString;
+        }
+
         /**
          * CONFIGURAZIONE DI GDRCD 5.4 "Optimus"
          * @author MrFaber
@@ -13,10 +25,10 @@
         error_reporting(E_ERROR | E_PARSE);
 
         /* PARAMETRI DI CONNESSIONE */
-        $PARAMETERS['database']['username'] = 'userdb';            //nome utente del database
-        $PARAMETERS['database']['password'] = 'passdb';            //password del database
-        $PARAMETERS['database']['database_name'] = 'my_database';    //nome del database
-        $PARAMETERS['database']['url'] = 'localhost';        //indirizzo ip del database
+        $PARAMETERS['database']['username'] = $_ENV['DB_USERNAME'];            //nome utente del database
+        $PARAMETERS['database']['password'] = $_ENV['DB_PASSWORD'];            //password del database
+        $PARAMETERS['database']['database_name'] = $_ENV['DB_NAME'];    //nome del database
+        $PARAMETERS['database']['url'] = $_ENV['DB_URL'];        //indirizzo ip del database
 
 
         /* HELP: Sostituire le diciture inserite tra le virgolette con i parametri di connessione al Database del proprio dominio. Essi sono forniti al momento della registrazione. Se non si e' in possesso di tali parametri consultare le FAQ della homepage dell'host che fornisce il dominio. Se non le si trovano li contattare lo staff dell'host. */
@@ -33,12 +45,12 @@
 
 
         /* INFORMAZIONI SUL SITO */
-        $PARAMETERS['info']['site_name'] = 'GDRCD 5.4'; //nome del gioco
-        $PARAMETERS['info']['site_url'] = 'http://www.domain.ext/'; //indirizzo URL del gioco
-        $PARAMETERS['info']['webmaster_name'] = 'Webmaster'; //nome e cognome del responsabile del sito
-        $PARAMETERS['info']['webmaster_email'] = 'mail@domain.ext'; //email ufficiale del webmaster (è visibile in homepage)
+        $PARAMETERS['info']['site_name'] = 'Beyond The Veil '; //nome del gioco
+        $PARAMETERS['info']['site_url'] = 'http://beyondtheveil.altervista.org/'; //indirizzo URL del gioco
+        $PARAMETERS['info']['webmaster_name'] = 'Enrico Meloni'; //nome e cognome del responsabile del sito
+        $PARAMETERS['info']['webmaster_email'] = 'enrico-meloni@hotmail.it'; //email ufficiale del webmaster (è visibile in homepage)
         $PARAMETERS['info']['homepage_name'] = 'Homepage'; //nome con il quale si indica la prima pagina visualizzata
-        $PARAMETERS['info']['dbadmin_name'] = 'Admin DB';
+        $PARAMETERS['info']['dbadmin_name'] = 'Enrico Meloni';
         $PARAMETERS['mode']['welcome_message_homepage'] = 'ON';//Attiva il messaggio di bevenuto in homepage
 
         /* HELP: I parametri di questa voce compaiono come informazioni sulla homepage. */
@@ -151,11 +163,11 @@
         /* NOMI CHIAVE DEL GIOCO */
         $PARAMETERS['names']['users_name']['sing'] = 'Utente'; //nome singolare degli utenti
         $PARAMETERS['names']['users_name']['plur'] = 'Utenti'; //nome plurale degli utenti
-        $PARAMETERS['names']['currency']['sing'] = 'Moneta'; //nome singolare della valuta nel gioco
-        $PARAMETERS['names']['currency']['plur'] = 'Monete'; //nome plurale della valuta nel gioco
-        $PARAMETERS['names']['currency']['short'] = 'MO'; //nome breve della valuta nel gioco
-        $PARAMETERS['names']['private_message']['sing'] = 'Messaggio'; //nome dei messaggi privati tra utenti (singolare)
-        $PARAMETERS['names']['private_message']['plur'] = 'Messaggi'; //nome dei messaggi privati tra utenti (plurale)
+        $PARAMETERS['names']['currency']['sing'] = 'Galeone'; //nome singolare della valuta nel gioco
+        $PARAMETERS['names']['currency']['plur'] = 'Galeoni'; //nome plurale della valuta nel gioco
+        $PARAMETERS['names']['currency']['short'] = 'GA'; //nome breve della valuta nel gioco
+        $PARAMETERS['names']['private_message']['sing'] = 'Gufo'; //nome dei messaggi privati tra utenti (singolare)
+        $PARAMETERS['names']['private_message']['plur'] = 'Gufi'; //nome dei messaggi privati tra utenti (plurale)
         $PARAMETERS['names']['private_message']['image_file'] = ''; //immagine del link ai messaggi
         $PARAMETERS['names']['private_message']['image_file_onclick'] = ''; //immagine al passaggio del mouse dei messaggi
         $PARAMETERS['names']['private_message']['image_file_new'] = ''; //immagine nuovi messaggi
@@ -288,7 +300,7 @@
 
         /** * Parametri per l'incremento dell'esperienza tramite caratteri scritti
          */
-        $PARAMETERS['mode']['exp_by_chat'] = 'OFF';
+        $PARAMETERS['mode']['exp_by_chat'] = 'ON';
         //ON: abilita l'incremento dei punti esperienza tramite i caratteri scritti in chat.
         //OFF: disabilita l'incremento dei punti esperienza tramite i caratteri scritti in chat.
 
@@ -542,7 +554,11 @@
         $PARAMETERS['menu']['map']['image_file_onclick'] = '';
 
         $PARAMETERS['menu']['profile']['text'] = 'Scheda';
-        $PARAMETERS['menu']['profile']['url'] = 'main.php?page=scheda&pg=' . $_SESSION['login'];
+        //$PARAMETERS['menu']['profile']['url'] = 'main.php?page=scheda&pg=' . $_SESSION['login'];
+        //$PARAMETERS['menu']['profile']['url']="javascript:modalWindow('scheda', 'Scheda di ". $_SESSION['login'] ."', 'main.php?page=scheda&pg=". $_SESSION['login'] ."');";
+        $PARAMETERS['menu']['profile']['url']="javascript:modalWindow('scheda',
+            'Scheda di ". $_SESSION['login'] ."', 
+            '" . createLink("page=scheda&pg=". $_SESSION['login'],true)."')";
         /*Esempio di link nel caso si volesse aprire come scheda modale
         $PARAMETERS['menu']['profile']['url']="javascript:modalWindow('scheda', 'Scheda di ". $_SESSION['login'] ."', 'popup.php?page=scheda&pg=". $_SESSION['login'] ."');";
         */
@@ -551,12 +567,14 @@
 
         $PARAMETERS['menu']['forum']['text'] = 'Bacheca';
         $PARAMETERS['menu']['forum']['url'] = 'main.php?page=forum';
+        //$PARAMETERS['menu']['forum']['url']= "javascript:modalWindow('scheda', '". $PARAMETERS['menu']['forum']['text'] ."', 'popup.php?page=forum');";
         $PARAMETERS['menu']['forum']['image_file'] = '';
         $PARAMETERS['menu']['forum']['image_file_onclick'] = '';
 
         if ($_SESSION['permessi'] >= MODERATOR) {
             $PARAMETERS['menu']['backend']['text'] = 'Gestione';
             $PARAMETERS['menu']['backend']['url'] = 'main.php?page=gestione';
+            //$PARAMETERS['menu']['forum']['url']= "javascript:modalWindow('scheda', '". $PARAMETERS['menu']['forum']['text'] ."', 'popup.php?page=forum');";
             $PARAMETERS['menu']['backend']['image_file'] = '';
             $PARAMETERS['menu']['backend']['image_file_onclick'] = '';
         }
