@@ -138,7 +138,7 @@ if ($PARAMETERS['mode']['alert_password_change']=='ON')
 
 	   <?php /*Visualizza il link modifica se l'utente visualizza la propria scheda o se è almeno un capogilda*/
 		     if($_REQUEST['pg']==$_SESSION['login'] || $_SESSION['permessi']>=GUILDMODERATOR){ ?>
-	            <a href="main.php?page=scheda_modifica&pg=<?php echo gdrcd_filter('url',$_REQUEST['pg']); ?>">
+	            <a href="<?=createLink('page=scheda_modifica&pg='.gdrcd_filter('url',$_REQUEST['pg']),$popupOn); ?>">
 	               <?php echo gdrcd_filter('out',$MESSAGE['interface']['sheet']['menu']['update']);?>
 	            </a>
 	   <?php } ?>
@@ -406,10 +406,10 @@ if ($PARAMETERS['mode']['alert_password_change']=='ON')
 				  (gdrcd_filter('get',$_REQUEST['pg'])==$_SESSION['login'])&&
 				  ($ranks[$row['id_abilita']]<$PARAMETERS['settings']['skills_cap']))||
 				 ($_SESSION['permessi']>=MODERATOR)){ ?>
-                 [<a href="main.php?page=scheda&pg=<?php echo gdrcd_filter('url',$_REQUEST['pg']) ?>&op=addskill&what=<?php echo $row['id_abilita'] ?>">+</a>]
+                 [<a href="<?=createLink('page=scheda&pg='.gdrcd_filter('url',$_REQUEST['pg']).'&op=addskill&what='. $row['id_abilita'],$popupOn)?>">+</a>]
                  <?php if(($_SESSION['permessi']>=MODERATOR)&&
 				          ($ranks[$row['id_abilita']]>0)){ ?>
-                 [<a href="main.php?page=scheda&pg=<?php echo gdrcd_filter('url',$_REQUEST['pg']) ?>&op=subskill&what=<?php echo $row['id_abilita'] ?>">-</a>]
+                 [<a href="<?=createLink('page=scheda&pg='.gdrcd_filter('url',$_REQUEST['pg']).'&op=subskill&what='. $row['id_abilita'],$popupOn)?>">-</a>]
 				 <?php } ?>
 		<?php } else { echo '&nbsp;';} ?>
      </div>
@@ -515,7 +515,7 @@ if ($PARAMETERS['mode']['alert_password_change']=='ON')
 } else { ?>
 <!-- Link a piè di pagina -->
 <div class="link_back">
-   <a href="main.php?page=scheda&pg=<?php echo gdrcd_filter('url',$_REQUEST['pg']); ?>"><?php echo gdrcd_filter('out',$MESSAGE['interface']['sheet']['link']['back']); ?></a>
+   <a href="<?=createLink('page=scheda&pg='.gdrcd_filter('url',$_REQUEST['pg']),$popupOn)?>"><?php echo gdrcd_filter('out',$MESSAGE['interface']['sheet']['link']['back']); ?></a>
 </div>
 <?php }//else
 

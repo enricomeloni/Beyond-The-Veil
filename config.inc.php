@@ -1,15 +1,9 @@
 <?php
         require __DIR__ . '/vendor/autoload.php';
+        require __DIR__ . '/includes/createLink.php';
 
         $dotenv = Dotenv\Dotenv::create(__DIR__);
         $dotenv->load();
-
-        
-        function createLink($queryString, $popup) 
-        {
-            $baseUrl = $popup ? 'popup.php' : 'main.php'; 
-            return $baseUrl . "?" . $queryString;
-        }
 
         /**
          * CONFIGURAZIONE DI GDRCD 5.4 "Optimus"
@@ -566,8 +560,12 @@
         $PARAMETERS['menu']['profile']['image_file_onclick'] = '';
 
         $PARAMETERS['menu']['forum']['text'] = 'Bacheca';
-        $PARAMETERS['menu']['forum']['url'] = 'main.php?page=forum';
+        //$PARAMETERS['menu']['forum']['url'] = 'main.php?page=forum';
         //$PARAMETERS['menu']['forum']['url']= "javascript:modalWindow('scheda', '". $PARAMETERS['menu']['forum']['text'] ."', 'popup.php?page=forum');";
+        $PARAMETERS['menu']['forum']['url']="javascript:modalWindow('forum',
+            '".$PARAMETERS['menu']['forum']['text']."', 
+            '" . createLink("page=forum",true)."')";
+        
         $PARAMETERS['menu']['forum']['image_file'] = '';
         $PARAMETERS['menu']['forum']['image_file_onclick'] = '';
 
@@ -575,6 +573,11 @@
             $PARAMETERS['menu']['backend']['text'] = 'Gestione';
             $PARAMETERS['menu']['backend']['url'] = 'main.php?page=gestione';
             //$PARAMETERS['menu']['forum']['url']= "javascript:modalWindow('scheda', '". $PARAMETERS['menu']['forum']['text'] ."', 'popup.php?page=forum');";
+                
+            $PARAMETERS['menu']['backend']['url']="javascript:modalWindow('backend',
+            '".$PARAMETERS['menu']['backend']['text']."', 
+            '" . createLink("page=gestione",true)."')";
+
             $PARAMETERS['menu']['backend']['image_file'] = '';
             $PARAMETERS['menu']['backend']['image_file_onclick'] = '';
         }
