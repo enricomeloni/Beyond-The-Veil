@@ -2,7 +2,7 @@
 require 'header.inc.php'; 
 gdrcd_controllo_sessione();
 
-echo '<div class="popup">';
+echo '<div class="popup output">';
 
 if (!empty($_GET['page']))
 {

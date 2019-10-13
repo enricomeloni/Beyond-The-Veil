@@ -1,5 +1,6 @@
 <?php
         require __DIR__ . '/vendor/autoload.php';
+        require __DIR__ . '/includes/createLink.php';
 
         $dotenv = Dotenv\Dotenv::create(__DIR__);
         $dotenv->load();
@@ -18,10 +19,10 @@
         error_reporting(E_ERROR | E_PARSE);
 
         /* PARAMETRI DI CONNESSIONE */
-        $PARAMETERS['database']['username'] = getenv('DB_USERNAME');            //nome utente del database
-        $PARAMETERS['database']['password'] = getenv('DB_PASSWORD');            //password del database
-        $PARAMETERS['database']['database_name'] = getenv('DB_NAME');    //nome del database
-        $PARAMETERS['database']['url'] = getenv('DB_URL');        //indirizzo ip del database
+        $PARAMETERS['database']['username'] = $_ENV['DB_USERNAME'];            //nome utente del database
+        $PARAMETERS['database']['password'] = $_ENV['DB_PASSWORD'];            //password del database
+        $PARAMETERS['database']['database_name'] = $_ENV['DB_NAME'];    //nome del database
+        $PARAMETERS['database']['url'] = $_ENV['DB_URL'];        //indirizzo ip del database
 
 
         /* HELP: Sostituire le diciture inserite tra le virgolette con i parametri di connessione al Database del proprio dominio. Essi sono forniti al momento della registrazione. Se non si e' in possesso di tali parametri consultare le FAQ della homepage dell'host che fornisce il dominio. Se non le si trovano li contattare lo staff dell'host. */
@@ -547,7 +548,11 @@
         $PARAMETERS['menu']['map']['image_file_onclick'] = '';
 
         $PARAMETERS['menu']['profile']['text'] = 'Scheda';
-        $PARAMETERS['menu']['profile']['url'] = 'main.php?page=scheda&pg=' . $_SESSION['login'];
+        //$PARAMETERS['menu']['profile']['url'] = 'main.php?page=scheda&pg=' . $_SESSION['login'];
+        //$PARAMETERS['menu']['profile']['url']="javascript:modalWindow('scheda', 'Scheda di ". $_SESSION['login'] ."', 'main.php?page=scheda&pg=". $_SESSION['login'] ."');";
+        $PARAMETERS['menu']['profile']['url']="javascript:modalWindow('scheda',
+            'Scheda di ". $_SESSION['login'] ."', 
+            '" . createLink("page=scheda&pg=". $_SESSION['login'],true)."')";
         /*Esempio di link nel caso si volesse aprire come scheda modale
         $PARAMETERS['menu']['profile']['url']="javascript:modalWindow('scheda', 'Scheda di ". $_SESSION['login'] ."', 'popup.php?page=scheda&pg=". $_SESSION['login'] ."');";
         */
@@ -555,13 +560,24 @@
         $PARAMETERS['menu']['profile']['image_file_onclick'] = '';
 
         $PARAMETERS['menu']['forum']['text'] = 'Bacheca';
-        $PARAMETERS['menu']['forum']['url'] = 'main.php?page=forum';
+        //$PARAMETERS['menu']['forum']['url'] = 'main.php?page=forum';
+        //$PARAMETERS['menu']['forum']['url']= "javascript:modalWindow('scheda', '". $PARAMETERS['menu']['forum']['text'] ."', 'popup.php?page=forum');";
+        $PARAMETERS['menu']['forum']['url']="javascript:modalWindow('forum',
+            '".$PARAMETERS['menu']['forum']['text']."', 
+            '" . createLink("page=forum",true)."')";
+        
         $PARAMETERS['menu']['forum']['image_file'] = '';
         $PARAMETERS['menu']['forum']['image_file_onclick'] = '';
 
         if ($_SESSION['permessi'] >= MODERATOR) {
             $PARAMETERS['menu']['backend']['text'] = 'Gestione';
             $PARAMETERS['menu']['backend']['url'] = 'main.php?page=gestione';
+            //$PARAMETERS['menu']['forum']['url']= "javascript:modalWindow('scheda', '". $PARAMETERS['menu']['forum']['text'] ."', 'popup.php?page=forum');";
+                
+            $PARAMETERS['menu']['backend']['url']="javascript:modalWindow('backend',
+            '".$PARAMETERS['menu']['backend']['text']."', 
+            '" . createLink("page=gestione",true)."')";
+
             $PARAMETERS['menu']['backend']['image_file'] = '';
             $PARAMETERS['menu']['backend']['image_file_onclick'] = '';
         }

@@ -1,13 +1,15 @@
 <div class="pagina_info_location">
 <?php /* HELP: Il box delle informazioni carica l'immagine del luogo corrente, lo stato e la descrizione. Genera, inoltre, il meteo */
 
+require(__DIR__ . "/../includes/dateControl.php");
+
 
 $result = gdrcd_query("SELECT mappa.nome, mappa.descrizione, mappa.stato, mappa.immagine, mappa.stanza_apparente, mappa.scadenza, mappa_click.meteo FROM  mappa_click LEFT JOIN mappa ON mappa_click.id_click = mappa.id_mappa WHERE id = ".$_SESSION['luogo']."", 'result'); 
 $record_exists = gdrcd_query($result, 'num_rows');
 $record = gdrcd_query($result, 'fetch');
 
-/** * Fix: quando non si è in una mappa visualizza il nome della chat
-	* Quando si è in una mappa si visualizza il nome della mappa
+/** * Fix: quando non si ï¿½ in una mappa visualizza il nome della chat
+	* Quando si ï¿½ in una mappa si visualizza il nome della mappa
 
 	* @author Blancks
 */
@@ -125,7 +127,7 @@ $meteo=$meteo_cond." - ". $gradi."&deg;C "; //.Tempo();
  <h2><?php echo gdrcd_filter('out',$MESSAGE['interface']['meteo']['title']);?></h2>
 </div>
 <div class="meteo_date">
-   <?php echo  strftime('%d').'/'.strftime('%m').'/'.(strftime('%Y')+$PARAMETERS['date']['offset']);?>
+	<?= convertTime(time());?>
 </div>
 <div class="meteo">
 <?php echo $meteo;?>

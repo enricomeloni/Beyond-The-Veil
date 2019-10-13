@@ -4,7 +4,14 @@
 
 /** * Parametri di default nella pagina
 */
-body{padding:0; margin:0; color:#222; font-family:Verdana,Sans; font-size:11px; background:url("imgs/bg.gif") top left repeat;}
+body{
+	padding:0; 
+	margin:0; 
+	color:#222; 
+	font-family:Verdana,Sans; 
+	font-size:11px; 
+	background-color: #3c3535	
+}
 
 body.transparent_body{background-color:transparent; background-image:none;}
 
@@ -113,7 +120,7 @@ div.pagina_info_location, div.msgs, div.menu, div.presenti, div.output{
 	margin:5px auto;
 	padding:10px;
 	width:180px;
-	background-color:#b9b9b9;
+	background-color:#809bce;
 	border:solid 1px #444;
 	-moz-border-radius:5px;		/* Bordi arrotondati */
 	-webkit-border-radius:5px;
@@ -130,7 +137,7 @@ div.output{
 	width:auto;
 	overflow:auto;
 	text-align:center;
-	background:url("imgs/main_bg.jpg") no-repeat top center #b9b9b9;
+	background:#809bce;
 }
 
 
