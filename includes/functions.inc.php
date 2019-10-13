@@ -32,9 +32,10 @@ function gdrcd_connect()
 		$db_link = mysqli_connect($db_host, $db_user, $db_pass, $db_name);
 		
 		mysqli_set_charset($db_link, "utf8");
-		
-		if (mysqli_connect_errno())
-				gdrcd_mysql_error($db_error);
+		$x = mysqli_connect_errno();
+		$y = mysqli_connect_error();
+		if ($x)
+			die(gdrcd_mysql_error($db_error, null, true));
 				    
 	}
 
@@ -208,13 +209,22 @@ function gdrcd_check_tables($table)
  * @param string $details: una descrizione dell'errore avvenuto
  * @return una stringa HTML che descrive l'errore riscontrato
  */
-function gdrcd_mysql_error($details = false)
+function gdrcd_mysql_error($details = false, $dbLink = null, $connectError = false)
 {
 	$backtrace = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, 50);
 
+	$errorCode = $connectError ? mysqli_connect_errno() : mysqli_errno($dbLink);
+	$errorString = $connectError ? mysqli_connect_error() : mysqli_error($dbLink);
+
+
+	if($dbLink == null && $connectError == false)
+	{
+		$dbLink = gdrcd_connect();
+	}
+
 	$error_msg = 	'<strong>GDRCD MySQLi Error</strong> [File: '. basename($backtrace[1]['file']) .'; Line: '. $backtrace[1]['line'] .']<br>'.
-					'<strong>Error Code</strong>: '. mysqli_errno(gdrcd_connect()) .'<br>'.
-					'<strong>Error String</strong>: '. mysqli_error(gdrcd_connect());
+					'<strong>Error Code</strong>: '. $errorCode .'<br>'.
+					'<strong>Error String</strong>: '. $errorString;
 
 	if ($details !== false)
 			$error_msg .= '<br><br><strong>Error Detail</strong>: ' . $details;
