@@ -1,5 +1,21 @@
 {
-    "require": {
-        "vlucas/phpdotenv": "^3.6"
+  "name": "mlz/gdrcd+",
+  "description": "gdrcd with composer",
+  "minimum-stability": "dev",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Enrico meloni",
+      "email": "enricomeloni15@gmail.com"
     }
+  ],
+  "require": {
+    "illuminate/database": "5.7.19",
+    "vlucas/phpdotenv": "3.6.x-dev"
+  },
+  "autoload": {
+    "psr-4": {
+      "Models\\": "Models/"
+    }
+  }
 }

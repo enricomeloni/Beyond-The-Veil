@@ -4,6 +4,9 @@ $check_for_update = FALSE;
 
 require 'header.inc.php';
 require 'includes/credits.inc.php';
+
+use Models\Personaggio;
+
 if ($PARAMETERS['settings']['protection']=='ON')
 {
 require 'protezione.php';
@@ -32,16 +35,14 @@ else
 
 	/** * Conteggio utenti online
 	*/
-	$users = gdrcd_query("SELECT COUNT(nome) AS online FROM personaggio WHERE ora_entrata > ora_uscita AND DATE_ADD(ultimo_refresh, INTERVAL 4 MINUTE) > NOW()");
-	
+	$users['online'] = Personaggio::countOnline();
 	
 	/** * Procedura di recupero Password
 	*/
 	$RP_response = '';
 
 	if(!empty($_POST['email']))
-	{ 
-
+	{
 		$newpass = gdrcd_query("SELECT email FROM personaggio WHERE email = '".gdrcd_filter('in',$_POST['email'])."' LIMIT 1", 'result');
 
 		if (gdrcd_query($newpass, 'num_rows') > 0)
