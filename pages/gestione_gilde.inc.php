@@ -14,7 +14,8 @@ if ($_SESSION['permessi']<MODERATOR){
 <!-- Corpo della pagina -->
 <div class="page_body">
   
-<?php /*Inserimento di un nuovo ruolo nella gilda corrente*/
+<?php
+/*Inserimento di un nuovo ruolo nella gilda corrente*/
       if (gdrcd_filter('get',$_POST['op'])=='nuovo_ruolo') { 
 		   /*Processo le informazioni ricevute dal form*/
            if ((isset($_POST['capo'])==TRUE)&&($_POST['capo']=='is_capo')){$is_capo=1;}
@@ -154,6 +155,26 @@ if ($_SESSION['permessi']<MODERATOR){
        </div>
 <?php } ?>
 
+<?php
+$guildDir = 'themes/'.$PARAMETERS['themes']['current_theme'].'/imgs/guilds';
+$stripThemeDir = function($img) use ($guildDir) {
+    return str_replace($guildDir."/", "", $img);
+};
+
+$guildImgs = array_map($stripThemeDir, traverseDirectory($guildDir));
+
+$printOptions = function($value=null) use ($guildImgs) {
+
+    foreach($guildImgs as $item) {
+        $selected = $value != null ? $value == $item : false;
+        ?>
+        <option value="<?=$item?>" <?=$selected?"selected":""?>><?=$item?></option>
+        <?php
+    }
+}
+
+?>
+
 <?php /*Form di inserimento/modifica*/
 	if ((gdrcd_filter('get',$_REQUEST['op'])=='edit') || 
 		(gdrcd_filter('get',$_REQUEST['op'])=='new')){ 
@@ -214,8 +235,9 @@ if ($_SESSION['permessi']<MODERATOR){
              <?php echo gdrcd_filter('out',$MESSAGE['interface']['administration']['guilds']['image']); ?>
           </div>
 		  <div class='form_field'>
-	         <input name="immagine" 
-				    value="<?php echo gdrcd_filter('out',$loaded_record['immagine']); ?>" />
+              <select name="immagine">
+                  <?php $printOptions($loaded_record['immagine']) ?>
+              </select>
 		  </div>
 
           <div class='form_label'>
@@ -294,13 +316,14 @@ if ($_SESSION['permessi']<MODERATOR){
 	         <input name="nome" 
 			        value="" />
 		  </div>
-          
+
 		  <div class='form_label'>
              <?php echo gdrcd_filter('out',$MESSAGE['interface']['administration']['guilds']['image']); ?>
           </div>
 		  <div class='form_field'>
-	         <input name="immagine" 
-				    value="" />
+              <select name="immagine">
+              <?php $printOptions() ?>
+              </select>
 		  </div>
 
 		  <div class='form_label'>
@@ -383,8 +406,9 @@ if ($_SESSION['permessi']<MODERATOR){
           </td>
 		  <td>
 		  <div class='form_field'>
-	         <input name="immagine" 
-				    value="<?php echo gdrcd_filter('out',$row['immagine']);?>" />
+              <select name="immagine">
+                <?php $printOptions($row['immagine']) ?>
+              </select>
 		  </div>
           </td>
 		  <td>

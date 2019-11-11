@@ -741,3 +741,27 @@ function gdrcd_list($str)
 
 	return $list;
 }
+
+function traverseDirectory($dir) {
+    $imgs = array();
+    //echo "dir=".$dir;
+    //echo "<br>";
+
+    foreach(scandir($dir) as $item) {
+        //echo "item=".$dir . $item;
+        //echo "<br>";
+        if($item == "." || $item == "..")
+            continue;
+        $newItem = $dir.'/'.$item;
+        if(is_dir($newItem)) {
+
+            $imgs = array_merge($imgs, traverseDirectory($newItem));
+        }
+        elseif(is_file($newItem))
+            array_push($imgs, $newItem);
+    }
+
+    //echo "<br>";
+    //echo "<br>";
+    return $imgs;
+}
