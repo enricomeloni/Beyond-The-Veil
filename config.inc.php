@@ -187,15 +187,23 @@
         $PARAMETERS['names']['market_name'] = 'Mercato'; //Nome del mercato
         $PARAMETERS['names']['maps_location'] = 'Alle mappe'; //Appare se il PG si trova su una mappa
         $PARAMETERS['names']['base_location'] = 'In giro'; //Appare nei presenti se non è possibile localizzare il pg
+        //stats fisiche
         $PARAMETERS['names']['stats']['car0'] = 'Forza'; //Caratteristiche del personaggio nella scheda
-        $PARAMETERS['names']['stats']['car1'] = 'Robustezza';
+        $PARAMETERS['names']['stats']['car1'] = 'Costituzione';
         $PARAMETERS['names']['stats']['car2'] = 'Destrezza';
-        $PARAMETERS['names']['stats']['car3'] = 'Intelligenza';
-        $PARAMETERS['names']['stats']['car4'] = 'Saggezza';
-        $PARAMETERS['names']['stats']['car5'] = 'Percezioni';
+        //stats mentali
+        $PARAMETERS['names']['stats']['car3'] = 'Psiche';
+        $PARAMETERS['names']['stats']['car4'] = 'Carisma';
+        $PARAMETERS['names']['stats']['car5'] = 'Volontà';
+        //stats spirituali
+        $PARAMETERS['names']['stats']['car6'] = 'Spirito';
+        $PARAMETERS['names']['stats']['car7'] = 'Istinto';
+        $PARAMETERS['names']['stats']['car8'] = 'Coraggio';
         $PARAMETERS['names']['stats']['hitpoints'] = 'Punti ferita';
+        $PARAMETERS['names']['stats']['mana'] = 'Mana';
 
-        /* HELP: I nomi chiave sono i termini con i quali ci si riferisce, all'interno del gioco, ad alcune figure ricorrenti, come il forum interno o lo staff del sito.*/
+
+/* HELP: I nomi chiave sono i termini con i quali ci si riferisce, all'interno del gioco, ad alcune figure ricorrenti, come il forum interno o lo staff del sito.*/
 
 
         /* DATA DELL'AMBIENTAZIONE */
@@ -560,11 +568,11 @@
         $PARAMETERS['menu']['profile']['image_file_onclick'] = '';
 
         $PARAMETERS['menu']['forum']['text'] = 'Bacheca';
-        //$PARAMETERS['menu']['forum']['url'] = 'main.php?page=forum';
+        $PARAMETERS['menu']['forum']['url'] = 'main.php?page=forum';
         //$PARAMETERS['menu']['forum']['url']= "javascript:modalWindow('scheda', '". $PARAMETERS['menu']['forum']['text'] ."', 'popup.php?page=forum');";
-        $PARAMETERS['menu']['forum']['url']="javascript:modalWindow('forum',
+        /*$PARAMETERS['menu']['forum']['url']="javascript:modalWindow('forum',
             '".$PARAMETERS['menu']['forum']['text']."', 
-            '" . createLink("page=forum",true)."')";
+            '" . createLink("page=forum",true)."')";*/
         
         $PARAMETERS['menu']['forum']['image_file'] = '';
         $PARAMETERS['menu']['forum']['image_file_onclick'] = '';
@@ -574,9 +582,9 @@
             $PARAMETERS['menu']['backend']['url'] = 'main.php?page=gestione';
             //$PARAMETERS['menu']['forum']['url']= "javascript:modalWindow('scheda', '". $PARAMETERS['menu']['forum']['text'] ."', 'popup.php?page=forum');";
                 
-            $PARAMETERS['menu']['backend']['url']="javascript:modalWindow('backend',
+            /*$PARAMETERS['menu']['backend']['url']="javascript:modalWindow('backend',
             '".$PARAMETERS['menu']['backend']['text']."', 
-            '" . createLink("page=gestione",true)."')";
+            '" . createLink("page=gestione",true)."')";*/
 
             $PARAMETERS['menu']['backend']['image_file'] = '';
             $PARAMETERS['menu']['backend']['image_file_onclick'] = '';

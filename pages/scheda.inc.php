@@ -4,23 +4,39 @@
 <?php /*HELP: E' possibile modificare la scheda agendo su scheda.css nel tema scelto, oppure sostituendo il codice che segue la voce "Scheda del personaggio"*/ ?>
 
 <?php
+
+use Models\Personaggio;
+
 $popupOn = $_GET["popup"] == '1';
 /********* CARICAMENTO PERSONAGGIO ***********/
 //Se non e' stato specificato il nome del pg
 if (isset($_REQUEST['pg'])===FALSE){
     echo '<div class="error">'.gdrcd_filter('out',$MESSAGE['error']['unknown_character_sheet']).'</div>';
 } else {
-	$query = "SELECT personaggio.*, razza.sing_m, razza.sing_f, razza.id_razza, razza.bonus_car0, razza.bonus_car1, razza.bonus_car2, razza.bonus_car3, razza.bonus_car4, razza.bonus_car5 FROM personaggio LEFT JOIN razza ON personaggio.id_razza=razza.id_razza WHERE personaggio.nome = '".gdrcd_filter('in',$_REQUEST['pg'])."'";
+	$query = "SELECT personaggio.*, razza.* FROM personaggio LEFT JOIN razza ON personaggio.id_razza=razza.id_razza WHERE personaggio.nome = '".gdrcd_filter('in',$_REQUEST['pg'])."'";
 	$result = gdrcd_query($query, 'result');
 	//Se non esiste il pg
 	if (gdrcd_query($result, 'num_rows')==0){echo '<div class="error">'.gdrcd_filter('out',$MESSAGE['error']['unknown_character_sheet']).'</div>';}
 
 	else {
 		$record = gdrcd_query($result, 'fetch');
+		$pg = Personaggio::query()->find($_REQUEST['pg']);
 		gdrcd_query($result, 'free');
 
 
-		$bonus_oggetti = gdrcd_query("SELECT SUM(oggetto.bonus_car0) AS BO0, SUM(oggetto.bonus_car1) AS BO1, SUM(oggetto.bonus_car2) AS BO2, SUM(oggetto.bonus_car3) AS BO3, SUM(oggetto.bonus_car4) AS BO4, SUM(oggetto.bonus_car5) AS BO5 FROM oggetto JOIN clgpersonaggiooggetto ON oggetto.id_oggetto = clgpersonaggiooggetto.id_oggetto WHERE clgpersonaggiooggetto.nome = '".gdrcd_filter('in',$_REQUEST['pg'])."' AND clgpersonaggiooggetto.posizione > ".ZAINO."");
+		$bonus_oggetti = gdrcd_query("SELECT SUM(oggetto.bonus_car0) AS BO0, 
+            SUM(oggetto.bonus_car1) AS BO1, 
+            SUM(oggetto.bonus_car2) AS BO2, 
+            SUM(oggetto.bonus_car3) AS BO3, 
+            SUM(oggetto.bonus_car4) AS BO4, 
+            SUM(oggetto.bonus_car5) AS B05, 
+            SUM(oggetto.bonus_car6) AS BO6, 
+            SUM(oggetto.bonus_car7) AS BO7, 
+            SUM(oggetto.bonus_car8) AS BO8 
+            FROM oggetto JOIN clgpersonaggiooggetto 
+            ON oggetto.id_oggetto = clgpersonaggiooggetto.id_oggetto 
+            WHERE clgpersonaggiooggetto.nome = '".gdrcd_filter('in',$_REQUEST['pg'])."' 
+            AND clgpersonaggiooggetto.posizione > ".ZAINO."");
 
         /*Controllo esilio, se esiliato non visualizzo la scheda*/
 		if($record['esilio']>strftime('%Y-%m-%d')){
@@ -284,7 +300,6 @@ if ($PARAMETERS['mode']['alert_password_change']=='ON')
   </div>
 
 
-
   <div class="profilo_voce">
      <div class="profilo_voce_label">
 	    <?php echo gdrcd_filter('out',$MESSAGE['interface']['sheet']['profile']['experience']); ?>:
@@ -294,68 +309,39 @@ if ($PARAMETERS['mode']['alert_password_change']=='ON')
 	 </div>
   </div>
   <!-- caratteristiche -->
-  <div class="profilo_voce">
-     <div class="profilo_voce_label">
-	    <?php echo gdrcd_filter('out',$PARAMETERS['names']['stats']['car0']); ?>:
-	 </div>
-	 <div class="profilo_voce_valore">
-	    <?php echo gdrcd_filter('out',$record['car0']+$record['bonus_car0']+$bonus_oggetti['BO0']); ?>
-	 </div>
-  </div>
 
-  <div class="profilo_voce">
-     <div class="profilo_voce_label">
-	    <?php echo gdrcd_filter('out',$PARAMETERS['names']['stats']['car1']); ?>:
-	 </div>
-	 <div class="profilo_voce_valore">
-	    <?php echo gdrcd_filter('out',$record['car1']+$record['bonus_car1']+$bonus_oggetti['BO1']); ?>
-	 </div>
-  </div>
+    <?php
+    foreach(range(0, 8) as $carIdx) {
+        $carName = 'car'.$carIdx;
+    ?>
+        <div class="profilo_voce">
+            <div class="profilo_voce_label">
+                <?php echo gdrcd_filter('out', $PARAMETERS['names']['stats'][$carName]); ?>:
+            </div>
+            <div class="profilo_voce_valore">
+                <?php echo gdrcd_filter('out', $pg[$carName] + $record['bonus_'.$carName] + $bonus_oggetti['BO'+$carIdx]); ?>
+            </div>
+        </div>
+        <?php
+     }
+    ?>
 
-  <div class="profilo_voce">
-     <div class="profilo_voce_label">
-	    <?php echo gdrcd_filter('out',$PARAMETERS['names']['stats']['car2']); ?>:
-	 </div>
-	 <div class="profilo_voce_valore">
-	    <?php echo gdrcd_filter('out',$record['car2']+$record['bonus_car2']+$bonus_oggetti['BO2']); ?>
-	 </div>
-  </div>
-
-  <div class="profilo_voce">
-     <div class="profilo_voce_label">
-	    <?php echo gdrcd_filter('out',$PARAMETERS['names']['stats']['car3']); ?>:
-	 </div>
-	 <div class="profilo_voce_valore">
-	    <?php echo gdrcd_filter('out',$record['car3']+$record['bonus_car3']+$bonus_oggetti['BO3']); ?>
-	 </div>
-  </div>
-
-  <div class="profilo_voce">
-     <div class="profilo_voce_label">
-	    <?php echo gdrcd_filter('out',$PARAMETERS['names']['stats']['car4']); ?>:
-	 </div>
-	 <div class="profilo_voce_valore">
-	    <?php echo gdrcd_filter('out',$record['car4']+$record['bonus_car4']+$bonus_oggetti['BO4']); ?>
-	 </div>
-  </div>
-
-  <div class="profilo_voce">
-     <div class="profilo_voce_label">
-	    <?php echo gdrcd_filter('out',$PARAMETERS['names']['stats']['car5']); ?>:
-	 </div>
-	 <div class="profilo_voce_valore">
-	    <?php echo gdrcd_filter('out',$record['car5']+$record['bonus_car5']+$bonus_oggetti['BO5']); ?>
-	 </div>
-  </div>
-
-  <div class="profilo_voce">
-     <div class="profilo_voce_label">
-	    <?php echo gdrcd_filter('out',$PARAMETERS['names']['stats']['hitpoints']); ?>:
-	 </div>
-	 <div class="profilo_voce_valore">
-	    <?php echo gdrcd_filter('out',$record['salute']).'/'.gdrcd_filter('out',$record['salute_max']); ?>
-	 </div>
-  </div>
+    <div class="profilo_voce">
+        <div class="profilo_voce_label">
+            <?php echo gdrcd_filter('out',$PARAMETERS['names']['stats']['hitpoints']); ?>:
+        </div>
+        <div class="profilo_voce_valore">
+            <?php echo gdrcd_filter('out',$pg['salute']).'/'.gdrcd_filter('out',$pg['salute_max']); ?>
+        </div>
+    </div>
+    <div class="profilo_voce">
+        <div class="profilo_voce_label">
+            <?php echo gdrcd_filter('out',$PARAMETERS['names']['stats']['mana']); ?>:
+        </div>
+        <div class="profilo_voce_valore">
+            <?php echo gdrcd_filter('out',$pg['mana']).'/'.gdrcd_filter('out',$pg['mana_max']); ?>
+        </div>
+    </div>
 
   <div class="profilo_status">
      <div class="profilo_status_label">
