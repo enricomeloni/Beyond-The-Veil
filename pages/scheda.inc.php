@@ -20,7 +20,8 @@ if (isset($_REQUEST['pg'])===FALSE){
 
 	else {
 		$record = gdrcd_query($result, 'fetch');
-		$pg = Personaggio::query()->find($_REQUEST['pg']);
+		$pg = Personaggio::query()->where('nome', $_REQUEST['pg'])->first();
+		$iscrizione = $pg->iscrizione()->first();
 		gdrcd_query($result, 'free');
 
 
@@ -286,6 +287,33 @@ if ($PARAMETERS['mode']['alert_password_change']=='ON')
 	 </div>
 
   </div>
+
+    <?php
+    if($iscrizione) {
+    ?>
+    <div class="profilo_voce">
+        <div class="profilo_voce_label">
+            <?php echo gdrcd_filter('out',$MESSAGE['interface']['sheet']['profile']['hogwarts']); ?>:
+        </div>
+        <div class="profilo_voce_valore">
+            <!-- immagine anno -->
+            <img class="profilo_img_gilda"
+                 src="themes/<?=$PARAMETERS['themes']['current_theme'] . '/imgs/hogwarts/anni/' . $iscrizione['anno'] ?>.png"
+                 alt="iscritto al <?=$iscrizione['anno']?> anno di hogwarts"
+                 title="Hogwarts - <?=$iscrizione['anno']?> anno"
+            />
+            <!-- immagine ruolo -->
+            <img class="profilo_img_gilda"
+                 src="themes/<?= $PARAMETERS['themes']['current_theme'] . '/imgs/hogwarts/' . $iscrizione['casata'] . '/' . $iscrizione['ruolo']?>.png"
+                 alt="ricopre il ruolo di <?=$iscrizione['ruolo']?> nella casata di <?=$iscrizione['casata']?>"
+                 title="<?=ucfirst($iscrizione['casata'])?> - <?=ucfirst($iscrizione['ruolo'])?> "
+            />
+        </div>
+
+    </div>
+    <?php
+    }
+    ?>
 
   <div class="profilo_voce">
      <div class="profilo_voce_label">

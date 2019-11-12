@@ -138,6 +138,7 @@ $MESSAGE['interface']['sheet']['box_title']['relationships']='Affetti';
 $MESSAGE['interface']['sheet']['profile']['role']='Incarico utente';
 $MESSAGE['interface']['sheet']['profile']['no_race']='sconosciuta';
 $MESSAGE['interface']['sheet']['profile']['occupation']='Occupazione';
+$MESSAGE['interface']['sheet']['profile']['hogwarts']='Hogwarts';
 $MESSAGE['interface']['sheet']['profile']['experience']='Esperienza';
 $MESSAGE['interface']['sheet']['profile']['status']='Status';
 $MESSAGE['interface']['sheet']['profile']['uneployed']='Disoccupato';
