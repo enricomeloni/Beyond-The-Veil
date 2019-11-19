@@ -556,11 +556,11 @@
         $PARAMETERS['menu']['map']['image_file_onclick'] = '';
 
         $PARAMETERS['menu']['profile']['text'] = 'Scheda';
-        //$PARAMETERS['menu']['profile']['url'] = 'main.php?page=scheda&pg=' . $_SESSION['login'];
+        $PARAMETERS['menu']['profile']['url'] = 'main.php?page=scheda&pg=' . $_SESSION['login'];
         //$PARAMETERS['menu']['profile']['url']="javascript:modalWindow('scheda', 'Scheda di ". $_SESSION['login'] ."', 'main.php?page=scheda&pg=". $_SESSION['login'] ."');";
-        $PARAMETERS['menu']['profile']['url']="javascript:modalWindow('scheda',
+        /*$PARAMETERS['menu']['profile']['url']="javascript:modalWindow('scheda',
             'Scheda di ". $_SESSION['login'] ."', 
-            '" . createLink("page=scheda&pg=". $_SESSION['login'],true)."')";
+            '" . createLink("page=scheda&pg=". $_SESSION['login'],true)."')";*/
         /*Esempio di link nel caso si volesse aprire come scheda modale
         $PARAMETERS['menu']['profile']['url']="javascript:modalWindow('scheda', 'Scheda di ". $_SESSION['login'] ."', 'popup.php?page=scheda&pg=". $_SESSION['login'] ."');";
         */
@@ -689,6 +689,9 @@
         $PARAMETERS['administration']['forums']['text'] = 'Gestione bacheche';
         $PARAMETERS['administration']['forums']['url'] = 'main.php?page=gestione_bacheche';
         $PARAMETERS['administration']['forums']['access_level'] = SUPERUSER;
+        $PARAMETERS['administration']['hogwarts']['text'] = 'Gestione Hogwarts';
+        $PARAMETERS['administration']['hogwarts']['url'] = 'main.php?page=gestione_hogwarts';
+        $PARAMETERS['administration']['hogwarts']['access_level'] = SUPERUSER;
         $PARAMETERS['administration']['guilds']['text'] = 'Gestione gilde e ruoli';
         $PARAMETERS['administration']['guilds']['url'] = 'main.php?page=gestione_gilde';
         $PARAMETERS['administration']['guilds']['access_level'] = SUPERUSER;

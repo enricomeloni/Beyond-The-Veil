@@ -529,6 +529,19 @@ $MESSAGE['interface']['administration']['guilds']['role']['head']="Controlli di 
 $MESSAGE['interface']['administration']['guilds']['role']['head_info']="I ruoli che hanno abilitati i controlli di gilda possono nominare e rimuovere i membri ed altri privilegi.";
 $MESSAGE['interface']['administration']['guilds']['role']['submit']['edit']='Modifica';
 $MESSAGE['interface']['administration']['guilds']['role']['submit']['delete']='Elimina';
+
+/*Hogwarts*/
+
+$MESSAGE['interface']['administration']['hogwarts']['page_name'] = 'Gestione Hogwarts';
+$MESSAGE['interface']['administration']['hogwarts']['promuovi_tutti'] = 'Promuovi tutti gli studenti';
+$MESSAGE['interface']['administration']['hogwarts']['promuovi']='Promuovi studente';
+$MESSAGE['interface']['administration']['hogwarts']['cambia_anno']='Imposta anno';
+$MESSAGE['interface']['administration']['hogwarts']['rimuovi']='Espelli da Hogwarts';
+$MESSAGE['interface']['administration']['hogwarts']['cambia_casa']='Cambia casata';
+$MESSAGE['interface']['administration']['hogwarts']['promozione']='Assegna anno o casata';
+$MESSAGE['interface']['administration']['hogwarts']['rimuovi']='Rimuovi studente';
+
+
 /*Tipi*/
 $MESSAGE['interface']['administration']['types']['page_name']['items']='Gestione tipi oggetto';
 $MESSAGE['interface']['administration']['types']['page_name']['guilds']='Gestione tipi '.strtolower($PARAMETERS['names']['guilds']['sing']).'';
